@@ -1,14 +1,12 @@
 // packages
-import { Dimensions, PixelRatio } from "react-native";
+import { Dimensions, PixelRatio, Platform } from "react-native";
 import ExtraDimensions from "react-native-extra-dimensions-android";
 
 // Retrieve initial screen's width
-// let screenWidth = Dimensions.get('window').width; //Not Working
-let screenWidth = ExtraDimensions.getRealWindowWidth();
+let screenWidth = Platform.OS === 'ios' ? Dimensions.get('window').width : ExtraDimensions.getRealWindowWidth();
 
 // Retrieve initial screen's height
-// let screenHeight = Dimensions.get('window').height; //Not Working
-let screenHeight = ExtraDimensions.getRealWindowHeight();
+let screenHeight = Platform.OS === 'ios' ? Dimensions.get('window').height : ExtraDimensions.getRealWindowHeight();
 
 /**
  * Converts provided width percentage to independent pixel (dp).
@@ -35,9 +33,7 @@ const widthPercentageToDP = widthPercent => {
 const heightPercentageToDP = heightPercent => {
   // Parse string percentage input and convert it to number.
   const elemHeight =
-    typeof heightPercent === "number"
-      ? heightPercent
-      : parseFloat(heightPercent);
+    typeof heightPercent === "number" ? heightPercent : parseFloat(heightPercent);
 
   // Use PixelRatio.roundToNearestPixel method in order to round the layout
   // size (dp) to the nearest one that correspons to an integer number of pixels.
